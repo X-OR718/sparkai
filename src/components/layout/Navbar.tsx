@@ -14,18 +14,18 @@ export function Navbar() {
             <Heart className="text-white w-6 h-6 fill-current" />
           </div>
           <span className="text-2xl font-bold tracking-tight text-white font-serif">
-            Candy<span className="text-primary">AI</span>
+            Spark<span className="text-primary">AI</span>
           </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          <Link to="/explore" className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
+          <Link to="/explore" search={{ filter: 'girls' }} className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
             Girls
           </Link>
-          <Link to="/explore" className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
+          <Link to="/explore" search={{ filter: 'anime' }} className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
             Anime
           </Link>
-          <Link to="/explore" className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
+          <Link to="/explore" search={{ filter: 'guys' }} className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
             Guys
           </Link>
           <Link to="/create" className="flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-primary transition-colors">
