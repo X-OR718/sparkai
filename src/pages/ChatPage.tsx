@@ -80,7 +80,7 @@ export default function ChatPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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',
+          'Authorization': 'Bearer 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',
           'HTTP-Referer': 'https://sparkai-mu.vercel.app',
           'X-Title': 'SparkAI'
         },
