@@ -1,0 +1,91 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/playfair-display/400.css";
+@import "@fontsource/playfair-display/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 284 45% 4%;
+    --foreground: 210 20% 98%;
+    --card: 284 45% 8%;
+    --card-foreground: 210 20% 98%;
+    --popover: 284 45% 4%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 328 100% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 284 45% 15%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 284 45% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 328 100% 54%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 284 45% 15%;
+    --input: 284 45% 15%;
+    --ring: 328 100% 54%;
+    --radius: 0.75rem;
+
+    --font-sans: "Inter", sans-serif;
+    --font-serif: "Playfair Display", serif;
+  }
+
+  .dark {
+    --background: 284 45% 4%;
+    --foreground: 210 20% 98%;
+    --card: 284 45% 8%;
+    --card-foreground: 210 20% 98%;
+    --popover: 284 45% 4%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 328 100% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 284 45% 15%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 284 45% 15%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 328 100% 54%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 284 45% 15%;
+    --input: 284 45% 15%;
+    --ring: 328 100% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+.glass {
+  @apply backdrop-blur-md bg-card/60 border border-white/10;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-[#FF69B4];
+}
+
+.premium-card {
+  @apply relative overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(255,20,147,0.2)];
+}
+
+.premium-card::before {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-60 pointer-events-none;
+}
