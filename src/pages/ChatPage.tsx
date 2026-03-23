@@ -85,7 +85,7 @@ export default function ChatPage() {
           'X-Title': 'SparkAI'
         },
         body: JSON.stringify({
-          model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition',
+          model: 'cognitivecomputations/dolphin-mistral-24b-venice-free',
           messages: [{ role: 'system', content: character.systemPrompt }, ...chatHistory]
         })
       })
