@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
@@ -12,8 +12,8 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'HTTP-Referer': process.env.SITE_URL || 'https://your-app.vercel.app',
-        'X-Title': 'AI Companion'
+        'HTTP-Referer': 'https://sparkai-mu.vercel.app',
+        'X-Title': 'SparkAI'
       },
       body: JSON.stringify({
         model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition:free',
