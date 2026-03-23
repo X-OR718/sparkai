@@ -1,6 +1,15 @@
-import { createClient } from '@blinkdotnew/sdk'
-
-export const blink = createClient({
-  projectId: import.meta.env.VITE_BLINK_PROJECT_ID,
-  auth: { mode: 'managed' }
-})
+export const blink = {
+  db: {
+    characters: {
+      create: async () => {},
+      list: async () => []
+    },
+    messages: {
+      create: async () => {},
+      list: async () => []
+    }
+  },
+  ai: {
+    streamText: async () => {}
+  }
+}
