@@ -87,13 +87,17 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
             >
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-10 h-14 rounded-full text-lg shadow-[0_0_30px_rgba(255,20,147,0.4)]">
-                Join now for FREE
-              </Button>
-              <Button size="lg" variant="outline" className="h-14 px-8 rounded-full border-white/10 hover:bg-white/5 text-lg">
-                <Play className="w-5 h-5 mr-2" />
-                Explore Characters
-              </Button>
+              <Link to="/explore">
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-10 h-14 rounded-full text-lg shadow-[0_0_30px_rgba(255,20,147,0.4)]">
+                  Join now for FREE
+                </Button>
+              </Link>
+              <Link to="/explore">
+                <Button size="lg" variant="outline" className="h-14 px-8 rounded-full border-white/10 hover:bg-white/5 text-lg">
+                  <Play className="w-5 h-5 mr-2" />
+                  Explore Characters
+                </Button>
+              </Link>
             </motion.div>
           </div>
         </section>
@@ -129,10 +133,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto space-y-16">
             <div className="text-center space-y-4">
               <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight">
-                Why Choose Candy<span className="text-primary">AI</span>?
+                Why Choose Spark<span className="text-primary">AI</span>?
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Built with advanced personality modeling and memory retention, CandyAI learns what you like, remembers what matters, and responds naturally.
+                Built with advanced personality modeling and memory retention, SparkAI learns what you like, remembers what matters, and responds naturally.
               </p>
             </div>
 
