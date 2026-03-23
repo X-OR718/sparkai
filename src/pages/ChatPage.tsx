@@ -76,14 +76,22 @@ export default function ChatPage() {
     setIsLoading(true)
     try {
       const chatHistory = updatedMessages.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content }))
-      const response = await fetch('/api/chat', {
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'system', content: character.systemPrompt }, ...chatHistory] })
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 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',
+          'HTTP-Referer': 'https://sparkai-mu.vercel.app',
+          'X-Title': 'SparkAI'
+        },
+        body: JSON.stringify({
+          model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition:free',
+          messages: [{ role: 'system', content: character.systemPrompt }, ...chatHistory]
+        })
       })
       const data = await response.json()
-      if (data.error) throw new Error(data.error)
-      const aiMsg: Message = { id: `msg_${Date.now() + 1}`, content: data.text, role: 'character', createdAt: new Date().toISOString() }
+      if (!data.choices?.[0]?.message?.content) throw new Error('No response')
+      const aiMsg: Message = { id: `msg_${Date.now() + 1}`, content: data.choices[0].message.content, role: 'character', createdAt: new Date().toISOString() }
       setMessages(prev => [...prev, aiMsg])
     } catch (err) {
       toast.error('Failed to get response. Check your API key.')
