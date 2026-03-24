@@ -168,7 +168,7 @@ export default function ChatPage() {
           'X-Title': 'SparkAI'
         },
         body: JSON.stringify({
-          model: 'meta-llama/llama-3.3-70b-instruct',
+          model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition',
           messages: [{
             role: 'user',
             content: `Read this conversation and extract 5-8 key personal facts about the USER only (not the character). Focus on: their name, job, plans, appointments, hobbies, problems, people in their life, things they mentioned doing soon. Write ONLY a short bullet list. No intro, no explanation. If nothing meaningful, write "No key facts yet."\n\nConversation:\n${history}`
@@ -265,7 +265,7 @@ Use this naturally — bring up their plans or ask how things went when relevant
           'X-Title': 'SparkAI'
         },
         body: JSON.stringify({
-          model: 'meta-llama/llama-3.3-70b-instruct',
+          model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition',
           messages: [{ role: 'system', content: systemPrompt }, ...chatHistory]
         })
       })
