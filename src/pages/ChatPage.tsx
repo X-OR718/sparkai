@@ -149,6 +149,7 @@ export default function ChatPage() {
   const [ageVerified, setAgeVerified] = useState(false)
   const [memoryNote, setMemoryNote] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
   const character = CHARACTERS[id as keyof typeof CHARACTERS]
   const storageKey = `chat_${id}`
   const ageKey = `sparkai_age_verified`
@@ -209,7 +210,7 @@ export default function ChatPage() {
   }, [messages])
 
   useEffect(() => {
-    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
 
   const handleNsfwToggle = () => {
@@ -336,7 +337,7 @@ Use this naturally — bring up their plans or ask how things went when relevant
 
           {/* Messages */}
           <div className="flex-1 overflow-hidden relative">
-            <ScrollArea className="h-full px-6 py-8" ref={scrollRef}>
+            <ScrollArea className="h-full px-6 py-8">
               <div className="space-y-6 max-w-3xl mx-auto">
                 {/* Opening card */}
                 <div className="flex flex-col items-center justify-center text-center space-y-4 py-8 opacity-70">
@@ -376,6 +377,7 @@ Use this naturally — bring up their plans or ask how things went when relevant
                     </div>
                   </div>
                 )}
+                <div ref={messagesEndRef} />
               </div>
             </ScrollArea>
           </div>
