@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Send, Image as ImageIcon, Mic, MoreHorizontal, ChevronLeft, Loader2, Flame, ShieldCheck } from 'lucide-react'
+import { Send, Image as ImageIcon, Mic, MoreHorizontal, ChevronLeft, Loader2, Flame, ShieldCheck, Trash2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-hot-toast'
 
@@ -184,14 +184,21 @@ export default function ChatPage() {
   }
 
   useEffect(() => {
-    const saved = localStorage.getItem(storageKey)
-    const parsed = saved ? JSON.parse(saved) : []
-    if (parsed.length > 0) setMessages(parsed)
+    setIsLoading(false)
+    setInput('')
+    try {
+      const saved = localStorage.getItem(storageKey)
+      const parsed = saved ? JSON.parse(saved) : []
+      if (Array.isArray(parsed) && parsed.length > 0) setMessages(parsed)
+      else setMessages([])
+    } catch (_) {
+      localStorage.removeItem(storageKey)
+      setMessages([])
+    }
     const verified = localStorage.getItem(ageKey) === 'true'
     setAgeVerified(verified)
     const savedMemory = localStorage.getItem(memoryKey)
     if (savedMemory) setMemoryNote(savedMemory)
-    if (parsed.length >= 10) extractMemory(parsed)
   }, [id])
 
   useEffect(() => {
@@ -323,7 +330,7 @@ Use this naturally — bring up their plans or ask how things went when relevant
                 <Flame className="w-3.5 h-3.5" />
                 {nsfwMode ? 'Adult On' : 'Adult'}
               </button>
-              <Button size="icon" variant="ghost" className="text-white/60 hover:text-primary hover:bg-primary/10 rounded-full"><MoreHorizontal className="w-5 h-5" /></Button>
+              <Button size="icon" variant="ghost" onClick={() => { if(window.confirm('Clear this chat?')) { localStorage.removeItem(storageKey); localStorage.removeItem(memoryKey); setMessages([]); setMemoryNote(''); } }} title="Clear chat" className="text-white/60 hover:text-red-400 hover:bg-red-400/10 rounded-full"><Trash2 className="w-4 h-4" /></Button>
             </div>
           </header>
 
