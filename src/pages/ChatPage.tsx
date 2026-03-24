@@ -257,7 +257,7 @@ Use this naturally — bring up their plans or ask how things went when relevant
           'X-Title': 'SparkAI'
         },
         body: JSON.stringify({
-          model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition:free',
+          model: 'meta-llama/llama-3.3-70b-instruct',
           messages: [{ role: 'system', content: systemPrompt }, ...chatHistory]
         })
       })
