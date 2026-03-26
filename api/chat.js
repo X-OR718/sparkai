@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         'X-Title': 'SparkAI'
       },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3.3-70b-instruct:free',
+        model: 'openrouter/auto',
         messages,
         max_tokens: 400,
         temperature: 0.9
