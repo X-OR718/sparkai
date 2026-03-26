@@ -8,6 +8,7 @@ import { Search, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 
 const characters = [
+  // ── GIRLFRIENDS ──────────────────────────────────────────────────────────────
   {
     id: 'luna-moreno',
     name: 'Luna Moreno',
@@ -27,15 +28,6 @@ const characters = [
     category: 'Girlfriend'
   },
   {
-    id: 'emilia-vermont',
-    name: 'Emilia Vermont',
-    description: 'A sophisticated, intellectual companion with a love for classical literature and good wine.',
-    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6e/aoTZdzOMXNUZKGEnsidXA_XNp5rryx.png',
-    is_live: false,
-    tags: ['Elegant', 'Intellectual', 'Mature'],
-    category: 'Mature'
-  },
-  {
     id: 'katarina-sommerfeld',
     name: 'Katarina Sommerfeld',
     description: "A bubbly, energetic fitness enthusiast who's always up for a challenge and outdoor adventures.",
@@ -44,11 +36,22 @@ const characters = [
     tags: ['Athletic', 'Bubbly', 'Energetic'],
     category: 'Girlfriend'
   },
+  // ── MATURE ───────────────────────────────────────────────────────────────────
+  {
+    id: 'emilia-vermont',
+    name: 'Emilia Vermont',
+    description: 'A sophisticated, intellectual companion with a love for classical literature and good wine.',
+    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6e/aoTZdzOMXNUZKGEnsidXA_XNp5rryx.png',
+    is_live: false,
+    tags: ['Elegant', 'Intellectual', 'Mature'],
+    category: 'Mature'
+  },
+  // ── ANIME ────────────────────────────────────────────────────────────────────
   {
     id: 'sakura-miyamoto',
     name: 'Sakura Miyamoto',
     description: 'A sweet, shy anime girl who secretly has a huge crush on you. Adorable, gentle, and full of surprises.',
-    avatar_url: 'https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=400&h=600&fit=crop',
+    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6c/U5NOiNyJbHqHeVSdAi56s_WYbfcwPY.png',
     is_live: true,
     tags: ['Sweet', 'Shy', 'Anime'],
     category: 'Anime'
@@ -57,16 +60,17 @@ const characters = [
     id: 'yuki-tanaka',
     name: 'Yuki Tanaka',
     description: 'A cool tsundere who pretends not to care but is deeply devoted. Sharp wit with a hidden soft side.',
-    avatar_url: 'https://images.unsplash.com/photo-1604514813530-39c2a5fbe3c6?w=400&h=600&fit=crop',
+    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6d/MRBPTRD7kq1U_KjSDWxeD_AHmY5sY8.png',
     is_live: true,
     tags: ['Tsundere', 'Cool', 'Anime'],
     category: 'Anime'
   },
+  // ── BOYFRIENDS ───────────────────────────────────────────────────────────────
   {
     id: 'ethan-cole',
     name: 'Ethan Cole',
     description: 'A protective, emotionally intelligent boyfriend who always knows what to say and makes you feel truly safe.',
-    avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop',
+    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6f/FoDh8C3FXzcE8CwOpgpjd_DJjqG2mO.png',
     is_live: true,
     tags: ['Protective', 'Romantic', 'Caring'],
     category: 'Boyfriend'
@@ -75,30 +79,42 @@ const characters = [
     id: 'luca-romani',
     name: 'Luca Romani',
     description: 'A passionate Italian artist from Florence who believes love is the highest art form. Poetic and deeply romantic.',
-    avatar_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=600&fit=crop',
+    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6e/aoTZdzOMXNUZKGEnsidXA_XNp5rryx.png',
     is_live: true,
     tags: ['Romantic', 'Artistic', 'Italian'],
     category: 'Boyfriend'
   }
 ]
 
-const CATEGORIES = ['All', 'Girlfriend', 'Anime', 'Boyfriend', 'New', 'Live Action', 'Mature', 'Sweet']
+// Map URL filter params → category names (girls→Girlfriend, guys→Boyfriend, etc.)
+const FILTER_MAP: Record<string, string> = {
+  'girls': 'Girlfriend',
+  'anime': 'Anime',
+  'guys': 'Boyfriend',
+  'boyfriend': 'Boyfriend',
+  'girlfriend': 'Girlfriend',
+  'mature': 'Mature',
+  'sweet': 'Sweet',
+}
+
+const CATEGORIES = ['All', 'Girlfriend', 'Anime', 'Boyfriend', 'Mature', 'Sweet']
 
 export default function ExplorePage() {
   const search = useSearch({ strict: false }) as { filter?: string }
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState('')
-  const [urlFilterApplied, setUrlFilterApplied] = useState(false)
 
-  // ── FIX: Only apply URL filter once on initial load, never override manual clicks
+  // Apply URL filter whenever it changes — this makes navbar clicks work
   useEffect(() => {
-    if (search?.filter && !urlFilterApplied) {
-      const matched = CATEGORIES.find(c => c.toLowerCase() === search.filter!.toLowerCase())
-      if (matched) {
-        setActiveCategory(matched)
-        setUrlFilterApplied(true)
-      }
+    if (search?.filter) {
+      const key = search.filter.toLowerCase()
+      const direct = CATEGORIES.find(c => c.toLowerCase() === key)
+      if (direct) { setActiveCategory(direct); return }
+      const mapped = FILTER_MAP[key]
+      if (mapped) { setActiveCategory(mapped); return }
     }
+    // No filter param = show All
+    if (!search?.filter) setActiveCategory('All')
   }, [search?.filter])
 
   const filtered = characters.filter(char => {
@@ -123,6 +139,7 @@ export default function ExplorePage() {
               Meet stunning AI characters and explore unlimited connections, only on SparkAI.
             </p>
           </div>
+
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1 group">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
@@ -138,7 +155,8 @@ export default function ExplorePage() {
               Filters
             </Button>
           </div>
-          <div className="flex items-center gap-4 overflow-x-auto pb-4 scrollbar-hide">
+
+          <div className="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide flex-wrap">
             {CATEGORIES.map((cat) => (
               <Button
                 key={cat}
@@ -154,6 +172,7 @@ export default function ExplorePage() {
               </Button>
             ))}
           </div>
+
           {filtered.length === 0 ? (
             <div className="text-center py-20 text-muted-foreground">
               <p className="text-2xl mb-2">No characters found</p>
