@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         'X-Title': 'SparkAI'
       },
       body: JSON.stringify({
-        model: 'openrouter/auto',
+        model: 'mistralai/mistral-small-3.2-24b-instruct',
         messages,
         max_tokens: 400,
         temperature: 0.9
