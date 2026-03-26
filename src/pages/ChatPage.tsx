@@ -155,20 +155,15 @@ export default function ChatPage() {
   const ageKey = `sparkai_age_verified`
   const memoryKey = `memory_${id}`
 
+  // ── FIX 1: extractMemory now routes through /api/chat ──────────────────────
   const extractMemory = async (msgs: Message[]) => {
     if (msgs.length < 10) return
     try {
       const history = msgs.slice(-40).map(m => `${m.role === 'user' ? 'User' : 'Character'}: ${m.content}`).join('\n')
-      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_KEY}`,
-          'HTTP-Referer': 'https://sparkai-mu.vercel.app',
-          'X-Title': 'SparkAI'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition',
           messages: [{
             role: 'user',
             content: `Read this conversation and extract 5-8 key personal facts about the USER only (not the character). Focus on: their name, job, plans, appointments, hobbies, problems, people in their life, things they mentioned doing soon. Write ONLY a short bullet list. No intro, no explanation. If nothing meaningful, write "No key facts yet."\n\nConversation:\n${history}`
@@ -176,7 +171,7 @@ export default function ChatPage() {
         })
       })
       const data = await res.json()
-      const summary = data.choices?.[0]?.message?.content?.trim()
+      const summary = data.text?.trim()
       if (summary && summary.length > 10) {
         localStorage.setItem(memoryKey, summary)
         setMemoryNote(summary)
@@ -234,6 +229,7 @@ export default function ChatPage() {
     toast.success('Adult mode unlocked 🔥', { style: { background: '#1a1a2e', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' } })
   }
 
+  // ── FIX 2: sendMessage now routes through /api/chat ───────────────────────
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return
     const content = input.trim()
@@ -256,22 +252,19 @@ ${currentMemory}
 Use this naturally — bring up their plans or ask how things went when relevant. Never recite the list directly.`
         : basePrompt
       const chatHistory = updatedMessages.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content }))
-      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_OPENROUTER_KEY}`,
-          'HTTP-Referer': 'https://sparkai-mu.vercel.app',
-          'X-Title': 'SparkAI'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'cognitivecomputations/dolphin-mistral-24b-venice-edition',
-          messages: [{ role: 'system', content: systemPrompt }, ...chatHistory]
+          messages: [
+            { role: 'system', content: systemPrompt },
+            ...chatHistory
+          ]
         })
       })
       const data = await response.json()
-      if (!data.choices?.[0]?.message?.content) throw new Error('No response')
-      const aiMsg: Message = { id: `msg_${Date.now() + 1}`, content: data.choices[0].message.content, role: 'character', createdAt: new Date().toISOString() }
+      if (!data.text) throw new Error('No response')
+      const aiMsg: Message = { id: `msg_${Date.now() + 1}`, content: data.text, role: 'character', createdAt: new Date().toISOString() }
       setMessages(prev => [...prev, aiMsg])
     } catch (err) {
       toast.error('Failed to get response. Try again shortly.')
