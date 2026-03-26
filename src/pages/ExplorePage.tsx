@@ -43,6 +43,42 @@ const characters = [
     is_live: true,
     tags: ['Athletic', 'Bubbly', 'Energetic'],
     category: 'Girlfriend'
+  },
+  {
+    id: 'sakura-miyamoto',
+    name: 'Sakura Miyamoto',
+    description: 'A sweet, shy anime girl who secretly has a huge crush on you. Adorable, gentle, and full of surprises.',
+    avatar_url: 'https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?w=400&h=600&fit=crop',
+    is_live: true,
+    tags: ['Sweet', 'Shy', 'Anime'],
+    category: 'Anime'
+  },
+  {
+    id: 'yuki-tanaka',
+    name: 'Yuki Tanaka',
+    description: 'A cool tsundere who pretends not to care but is deeply devoted. Sharp wit with a hidden soft side.',
+    avatar_url: 'https://images.unsplash.com/photo-1604514813530-39c2a5fbe3c6?w=400&h=600&fit=crop',
+    is_live: true,
+    tags: ['Tsundere', 'Cool', 'Anime'],
+    category: 'Anime'
+  },
+  {
+    id: 'ethan-cole',
+    name: 'Ethan Cole',
+    description: 'A protective, emotionally intelligent boyfriend who always knows what to say and makes you feel truly safe.',
+    avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop',
+    is_live: true,
+    tags: ['Protective', 'Romantic', 'Caring'],
+    category: 'Boyfriend'
+  },
+  {
+    id: 'luca-romani',
+    name: 'Luca Romani',
+    description: 'A passionate Italian artist from Florence who believes love is the highest art form. Poetic and deeply romantic.',
+    avatar_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=600&fit=crop',
+    is_live: true,
+    tags: ['Romantic', 'Artistic', 'Italian'],
+    category: 'Boyfriend'
   }
 ]
 
@@ -52,11 +88,16 @@ export default function ExplorePage() {
   const search = useSearch({ strict: false }) as { filter?: string }
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState('')
+  const [urlFilterApplied, setUrlFilterApplied] = useState(false)
 
+  // ── FIX: Only apply URL filter once on initial load, never override manual clicks
   useEffect(() => {
-    if (search?.filter) {
+    if (search?.filter && !urlFilterApplied) {
       const matched = CATEGORIES.find(c => c.toLowerCase() === search.filter!.toLowerCase())
-      if (matched) setActiveCategory(matched)
+      if (matched) {
+        setActiveCategory(matched)
+        setUrlFilterApplied(true)
+      }
     }
   }, [search?.filter])
 
