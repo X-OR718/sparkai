@@ -9,8 +9,6 @@ export default async function handler(req, res) {
   if (!messages) return res.status(400).json({ error: 'Messages required' })
 
   const apiKey = process.env.OPENROUTER_API_KEY || process.env.VITE_OPENROUTER_KEY
-
-  // Log key status (first 8 chars only for security)
   console.log('API Key present:', !!apiKey, apiKey ? apiKey.substring(0, 8) + '...' : 'MISSING')
 
   if (!apiKey) {
@@ -27,16 +25,14 @@ export default async function handler(req, res) {
         'X-Title': 'SparkAI'
       },
       body: JSON.stringify({
-        model: 'mistralai/mistral-small-3.2-24b-instruct',
+        model: 'meta-llama/llama-3.3-70b-instruct:free',
         messages,
-        max_tokens: 400,
-        temperature: 0.9
+        max_tokens: 150,
+        temperature: 1.1
       })
     })
 
     const data = await openRouterRes.json()
-
-    // Log full OpenRouter response for debugging
     console.log('OpenRouter status:', openRouterRes.status)
     console.log('OpenRouter response:', JSON.stringify(data))
 
@@ -52,7 +48,6 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({ text })
-
   } catch (err) {
     console.log('Fetch error:', err.message)
     return res.status(500).json({ error: 'API call failed: ' + err.message })
