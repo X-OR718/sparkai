@@ -329,18 +329,26 @@ export default function ChatPage() {
     if (msgs.length < 10) return
     try {
       const history = msgs.slice(-40).map(m => `${m.role === 'user' ? 'User' : 'Character'}: ${m.content}`).join('\n')
-      const res = await fetch('/api/chat', {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer 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`,
+          'HTTP-Referer': 'https://sparkai-mu.vercel.app',
+          'X-Title': 'SparkAI'
+        },
         body: JSON.stringify({
+          model: 'meta-llama/llama-3.3-70b-instruct:free',
           messages: [{
             role: 'user',
             content: `Read this conversation and extract 5-8 key personal facts about the USER only. Focus on: their name, job, plans, hobbies, problems, people in their life. Write ONLY a short bullet list. No intro. If nothing meaningful, write "No key facts yet."\n\nConversation:\n${history}`
-          }]
+          }],
+          max_tokens: 200,
+          temperature: 0.5
         })
       })
       const data = await res.json()
-      const summary = data.text?.trim()
+      const summary = data.choices?.[0]?.message?.content?.trim()
       if (summary && summary.length > 10) {
         localStorage.setItem(memoryKey, summary)
         setMemoryNote(summary)
@@ -409,16 +417,28 @@ export default function ChatPage() {
         ? `${basePrompt}\n\nWhat you remember about this person:\n${currentMemory}\n\nUse this naturally. Never recite the list directly.`
         : basePrompt
       const chatHistory = updatedMessages.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.content }))
-      const response = await fetch('/api/chat', {
+      // Call OpenRouter directly from frontend (bypasses Vercel serverless issues)
+      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [{ role: 'system', content: systemPrompt }, ...chatHistory] })
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer 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`,
+          'HTTP-Referer': 'https://sparkai-mu.vercel.app',
+          'X-Title': 'SparkAI'
+        },
+        body: JSON.stringify({
+          model: 'meta-llama/llama-3.3-70b-instruct:free',
+          messages: [{ role: 'system', content: systemPrompt }, ...chatHistory],
+          max_tokens: 150,
+          temperature: 1.1
+        })
       })
       const data = await response.json()
-      if (!data.text) throw new Error('No response')
+      const responseText = data.choices?.[0]?.message?.content
+      if (!responseText) throw new Error('No response')
 
       // ── Photo reveal logic ──────────────────────────────────────────────────
-      const rawText: string = data.text
+      const rawText: string = responseText
       const hasPhoto = rawText.includes('[PHOTO]')
       const cleanText = rawText.replace('[PHOTO]', '').trim()
 
