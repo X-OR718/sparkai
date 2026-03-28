@@ -51,7 +51,7 @@ const characters = [
     id: 'sakura-miyamoto',
     name: 'Sakura Miyamoto',
     description: 'A sweet, shy anime girl who secretly has a huge crush on you. Adorable, gentle, and full of surprises.',
-    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6c/U5NOiNyJbHqHeVSdAi56s_WYbfcwPY.png',
+    avatar_url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=600&fit=crop&crop=face',
     is_live: true,
     tags: ['Sweet', 'Shy', 'Anime'],
     category: 'Anime'
@@ -60,7 +60,7 @@ const characters = [
     id: 'yuki-tanaka',
     name: 'Yuki Tanaka',
     description: 'A cool tsundere who pretends not to care but is deeply devoted. Sharp wit with a hidden soft side.',
-    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6d/MRBPTRD7kq1U_KjSDWxeD_AHmY5sY8.png',
+    avatar_url: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=600&fit=crop&crop=face',
     is_live: true,
     tags: ['Tsundere', 'Cool', 'Anime'],
     category: 'Anime'
@@ -70,7 +70,7 @@ const characters = [
     id: 'ethan-cole',
     name: 'Ethan Cole',
     description: 'A protective, emotionally intelligent boyfriend who always knows what to say and makes you feel truly safe.',
-    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6f/FoDh8C3FXzcE8CwOpgpjd_DJjqG2mO.png',
+    avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop&crop=face',
     is_live: true,
     tags: ['Protective', 'Romantic', 'Caring'],
     category: 'Boyfriend'
@@ -79,14 +79,14 @@ const characters = [
     id: 'luca-romani',
     name: 'Luca Romani',
     description: 'A passionate Italian artist from Florence who believes love is the highest art form. Poetic and deeply romantic.',
-    avatar_url: 'https://v3b.fal.media/files/b/0a92fe6e/aoTZdzOMXNUZKGEnsidXA_XNp5rryx.png',
+    avatar_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=600&fit=crop&crop=face',
     is_live: true,
     tags: ['Romantic', 'Artistic', 'Italian'],
     category: 'Boyfriend'
   }
 ]
 
-// Map URL filter params → category names (girls→Girlfriend, guys→Boyfriend, etc.)
+// Map URL filter params → category names
 const FILTER_MAP: Record<string, string> = {
   'girls': 'Girlfriend',
   'anime': 'Anime',
@@ -104,7 +104,6 @@ export default function ExplorePage() {
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Apply URL filter whenever it changes — this makes navbar clicks work
   useEffect(() => {
     if (search?.filter) {
       const key = search.filter.toLowerCase()
@@ -113,7 +112,6 @@ export default function ExplorePage() {
       const mapped = FILTER_MAP[key]
       if (mapped) { setActiveCategory(mapped); return }
     }
-    // No filter param = show All
     if (!search?.filter) setActiveCategory('All')
   }, [search?.filter])
 
