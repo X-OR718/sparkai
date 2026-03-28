@@ -65,6 +65,16 @@ const characters = [
     tags: ['Tsundere', 'Cool', 'Anime'],
     category: 'Anime'
   },
+  // ── SWEET ────────────────────────────────────────────────────────────────────
+  {
+    id: 'aria-bennett',
+    name: 'Aria Bennett',
+    description: 'A warm, curvy baker who always knows the right thing to say. She makes every moment feel like home.',
+    avatar_url: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=400&h=600&fit=crop&crop=face',
+    is_live: true,
+    tags: ['Sweet', 'Nurturing', 'Cozy'],
+    category: 'Sweet'
+  },
   // ── BOYFRIENDS ───────────────────────────────────────────────────────────────
   {
     id: 'ethan-cole',
@@ -85,17 +95,7 @@ const characters = [
     category: 'Boyfriend'
   }
 ]
-// ── SWEET ────────────────────────────────────────────────────────────────────
-  {
-    id: 'aria-bennett',
-    name: 'Aria Bennett',
-    description: 'A warm, curvy baker who always knows the right thing to say. She makes every moment feel like home.',
-    avatar_url: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?w=400&h=600&fit=crop&crop=face',
-    is_live: true,
-    tags: ['Sweet', 'Nurturing', 'Cozy'],
-    category: 'Sweet'
-  },
-// Map URL filter params → category names
+
 const FILTER_MAP: Record<string, string> = {
   'girls': 'Girlfriend',
   'anime': 'Anime',
