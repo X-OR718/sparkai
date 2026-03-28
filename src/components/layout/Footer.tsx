@@ -11,7 +11,7 @@ export function Footer() {
               <Heart className="text-white w-6 h-6 fill-current" />
             </div>
             <span className="text-2xl font-bold tracking-tight text-white font-serif">
-              Candy<span className="text-primary">AI</span>
+              Spark<span className="text-primary">AI</span>
             </span>
           </Link>
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
@@ -56,9 +56,9 @@ export function Footer() {
         <div className="space-y-4">
           <h4 className="text-sm font-semibold text-white tracking-wider uppercase">Contact</h4>
           <ul className="space-y-2">
-            <li><a href="mailto:support@candy.ai" className="text-sm text-muted-foreground hover:text-primary transition-colors">support@candy.ai</a></li>
+            <li><a href="mailto:support@sparkai.app" className="text-sm text-muted-foreground hover:text-primary transition-colors">support@sparkai.app</a></li>
             <li className="text-sm text-muted-foreground pt-4 flex flex-col gap-2">
-              <span className="font-semibold text-white/40">© 2026 CandyAI</span>
+              <span className="font-semibold text-white/40">© 2026 SparkAI</span>
               <span>All rights reserved.</span>
             </li>
           </ul>
