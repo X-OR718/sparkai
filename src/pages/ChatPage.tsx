@@ -454,7 +454,7 @@ export default function ChatPage() {
           'X-Title': 'SparkAI'
         },
         body: JSON.stringify({
-          model: 'meta-llama/llama-3.3-70b-instruct:free',
+          model: 'meta-llama/llama-3.3-70b-instruct',
           messages: [{ role: 'system', content: systemPrompt }, ...chatHistory],
           max_tokens: 150,
           temperature: 0.9
